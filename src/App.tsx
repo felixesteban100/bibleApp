@@ -64,6 +64,9 @@ function App() {
     setChapter(chapterSelected)
   }
 
+  //to compare with 
+  // https://bolls.life/NASB/30/7/-1
+
   return (
     <div data-theme={isDarkMode === true ? "forest" : "garden"} className="min-h-screen">
       <Header
