@@ -68,7 +68,7 @@ function App() {
           setChapter(previousBook[0].chapters)
         }
 
-        if (book.bookid === 1) {
+        if (chapter === 1 && book.bookid === 1) {
           const lastBook = versions[version].filter((currentBook: Book) => {
             if (currentBook.bookid === versions[version].length) {
               return {
@@ -82,8 +82,7 @@ function App() {
           setBook(lastBook[0])
           setChapter(lastBook[0].chapters)
         }
-
-        break;
+      break;
 
       case "next":
         setChapter(prev => {
@@ -106,11 +105,11 @@ function App() {
           setChapter(1)
         }
 
-        if (book.bookid === versions[version].length) {
-          setBook(versions[version].filter((currentBook: Book) => currentBook.bookid === 1)[0])
+        if (chapter === book.chapters && book.bookid === versions[version].length) {
+          setBook(versions[version].filter((currentBook: Book, index) => index === 0)[0])
           setChapter(1)
         }
-        break;
+      break;
 
       default:
         console.log("None")
