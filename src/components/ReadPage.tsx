@@ -46,6 +46,8 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
                     text={"<"}
                     changeChapter={changeChapter}
                     move={"previous"}
+                    bookIdSelected={chapterSelected - 1}
+                    hideInSmallScreen={true}
                 />
 
                 <label
@@ -59,14 +61,20 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
                     text={">"}
                     changeChapter={changeChapter}
                     move={"next"}
+                    bookIdSelected={chapterSelected + 1}
+                    hideInSmallScreen={true}
                 />
             </div>
 
             <div className="text-2xl leading-10">
                 {chapter!.map((currentVerse) => (
                     // <span className="flex gap-2 text-2xl">
+                    // <span key={currentVerse.verse}>
+                    //     <span className="text-primary"> {currentVerse.verse} </span><span>{currentVerse.text}</span>
+                    // </span>
+
                     <span key={currentVerse.verse}>
-                        <span className="text-primary"> {currentVerse.verse} </span><span>{currentVerse.text}</span>
+                        <span className="text-primary" > {currentVerse.verse} </span><span dangerouslySetInnerHTML={{ __html: currentVerse.text }}></span>
                     </span>
                 ))}
             </div>
@@ -76,16 +84,20 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
                     text={"<"}
                     changeChapter={changeChapter}
                     move={"previous"}
+                    bookIdSelected={book_idSelected - 1}
+                    hideInSmallScreen={false}
                 />
 
                 <Button
                     text={">"}
                     changeChapter={changeChapter}
                     move={"next"}
+                    bookIdSelected={book_idSelected + 1}
+                    hideInSmallScreen={false}
                 />
             </div>
         </div>
-        
+
     )
 }
 
