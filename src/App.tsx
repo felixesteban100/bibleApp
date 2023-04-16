@@ -53,7 +53,7 @@ function App() {
           if (prev === 1) return prev
           return prev - 1
         })
-        if (chapter === 1) {
+        if (chapter === 1 && book.bookid > 1) {
           const previousBook = versions[version].filter((currentBook: Book) => {
             if (currentBook.bookid === book.bookid - 1) {
               return {
@@ -64,9 +64,23 @@ function App() {
               };
             }
           })
-          console.log(previousBook)
           setBook(previousBook[0])
           setChapter(previousBook[0].chapters)
+        }
+
+        if (book.bookid === 1) {
+          const lastBook = versions[version].filter((currentBook: Book) => {
+            if (currentBook.bookid === versions[version].length) {
+              return {
+                bookid: currentBook.bookid,
+                chronorder: currentBook.chronorder,
+                name: currentBook.name,
+                chapters: currentBook.chapters
+              };
+            }
+          })
+          setBook(lastBook[0])
+          setChapter(lastBook[0].chapters)
         }
 
         break;
@@ -76,7 +90,8 @@ function App() {
           if (prev === book.chapters) return prev
           return prev + 1
         })
-        if (chapter === book.chapters) {
+
+        if (chapter === book.chapters && book.bookid < versions[version].length) {
           const nextBook = versions[version].filter((currentBook: Book) => {
             if (currentBook.bookid === book.bookid + 1) {
               return {
@@ -87,15 +102,19 @@ function App() {
               };
             }
           })
-          console.log(nextBook)
           setBook(nextBook[0])
+          setChapter(1)
+        }
+
+        if (book.bookid === versions[version].length) {
+          setBook(versions[version].filter((currentBook: Book) => currentBook.bookid === 1)[0])
           setChapter(1)
         }
         break;
 
       default:
         console.log("None")
-        break;
+      break;
     }
   }
 
