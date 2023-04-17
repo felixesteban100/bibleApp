@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import axios from "axios";
 import Button from "../ReusableComponents/Button";
 import { useEffect } from "react";
+import Loading from "../ReusableComponents/Loading";
 
 type ReadPageProps = {
     book_idSelected: number;
@@ -34,7 +35,9 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
     }, [book_idSelected, book_nameSelected, chapterSelected, versionSelected]);
 
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return(
+        <Loading />
+    )
 
     if (error) return <div>{`An error has occurred: ${error}`}</div>
 

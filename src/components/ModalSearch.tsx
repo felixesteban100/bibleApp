@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useEffect, useState, version } from "react";
 import versions_withBooks from './../data/translations_books.json'
+import Loading from "../ReusableComponents/Loading";
 
 
 type ModalSearchProps = {
@@ -57,8 +58,6 @@ function ModalSearch({ versionSelected, changeBookandChapter }: ModalSearchProps
             return []
         }
     })
-
-    console.log(wordForSearch, searchResult)
 
     function changeWordForSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setWordForSearch(event.target.value)
