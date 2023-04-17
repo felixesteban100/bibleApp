@@ -58,11 +58,10 @@ function ModalSearch({ versionSelected, changeBookandChapter }: ModalSearchProps
         }
     })
 
+    console.log(wordForSearch, searchResult)
+
     function changeWordForSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setWordForSearch(event.target.value)
-        console.log()
-        console.log()
-        // const booksMatched = versions[versionSelected].filter(current => current.name.toLowerCase().includes(event.target.value.toLowerCase().match(/\w+/g)))
 
         const regexMatches = event.target.value.toLowerCase().match(/\w+/g);
         const booksMatched = versions[versionSelected].filter(current =>
@@ -73,6 +72,8 @@ function ModalSearch({ versionSelected, changeBookandChapter }: ModalSearchProps
             books: booksMatched,
             chapter: parseInt(event.target.value.match(/ \d+/g)?.[0] || "1")
         })
+
+        console.log(versions[versionSelected].filter((current, index) => index + 1 === 1))
     }
 
     function searchWord() {
@@ -102,72 +103,72 @@ function ModalSearch({ versionSelected, changeBookandChapter }: ModalSearchProps
                             </div>
                             {
                                 (matchBooksAndChapters.books.length !== 0 && (wordForSearch !== "" && wordForSearch !== undefined)) ?
-                                    <div tabIndex={0} className="collapse-open collapse border border-base-300 bg-base-100">
-                                        <div className="collapse-content flex flex-col gap-2">
-                                            {matchBooksAndChapters.books.map((currentBook, index) => 
-                                                matchBooksAndChapters.chapter <= currentBook.chapters ?
-                                                <label 
-                                                    key={`${currentBook.name} ${index}`} 
-                                                    htmlFor="my-modal-search" 
-                                                    onClick={() => changeBookandChapter(currentBook, matchBooksAndChapters.chapter)}
-                                                    className='cursor-pointer'
-                                                >
-                                                    {currentBook.name} {matchBooksAndChapters.chapter}
-                                                </label>
-                                                :
-                                                null
-                                                
-                                            )}
-                                        </div>
+                                <div tabIndex={0} className="collapse-open collapse border border-base-300 bg-base-100">
+                                    <div className="collapse-content flex flex-col gap-2">
+                                        {matchBooksAndChapters.books.map((currentBook, index) => 
+                                            matchBooksAndChapters.chapter <= currentBook.chapters ?
+                                            <label 
+                                                key={`${currentBook.name} ${index}`} 
+                                                htmlFor="my-modal-search" 
+                                                onClick={() => changeBookandChapter(currentBook, matchBooksAndChapters.chapter)}
+                                                className='cursor-pointer hover:text-primary'
+                                            >
+                                                {currentBook.name} {matchBooksAndChapters.chapter}
+                                            </label>
+                                            :
+                                            null
+                                            
+                                        )}
                                     </div>
-                                    :
-                                    null
+                                </div>
+                                :
+                                null
                             }
                         </div>
-
                     </div>
 
                     {
                         isLoading ?
-                            <div>
-                                <input type="checkbox" id="my-modal-search" className="modal-toggle" />
+                        <div>
+                            <input type="checkbox" id="my-modal-search" className="modal-toggle" />
 
-                                <label htmlFor="my-modal-search" className="modal cursor-pointer">
-                                    <label className="modal-box relative" htmlFor="">
-                                        <label htmlFor="my-modal-search" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                                        Loading...
-                                    </label>
+                            <label htmlFor="my-modal-search" className="modal cursor-pointer">
+                                <label className="modal-box relative" htmlFor="">
+                                    <label htmlFor="my-modal-search" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                    Loading...
                                 </label>
-                            </div>
-                            : error ?
-                                <div>
-                                    <input type="checkbox" id="my-modal-search" className="modal-toggle" />
+                            </label>
+                        </div>
+                        : error ?
+                        <div>
+                            <input type="checkbox" id="my-modal-search" className="modal-toggle" />
 
-                                    <label htmlFor="my-modal-search" className="modal cursor-pointer">
-                                        <label className="modal-box relative" htmlFor="">
-                                            <label htmlFor="my-modal-search" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
-                                            {`Error: ${error}`}
+                            <label htmlFor="my-modal-search" className="modal cursor-pointer">
+                                <label className="modal-box relative" htmlFor="">
+                                    <label htmlFor="my-modal-search" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                                    {`Error: ${error}`}
+                                </label>
+                            </label>
+                        </div>
+                        : searchResult !== undefined ?
+                        <div className="overflow-x-auto pt-5 flex flex-col gap-5">
+                            <p>Results: {searchResult.length}</p>
+                            {searchResult.map((verse: Verse) => (
+                                <div className="text-xl font-medium">
+                                    <label 
+                                            key={`${verse}`} 
+                                            htmlFor="my-modal-search" 
+                                            onClick={() => changeBookandChapter(versions[versionSelected].filter((current, index) => index + 1 === verse.book)[0], verse.chapter)}
+                                            className='cursor-pointer'
+                                        >
+                                            <div className="hover:text-primary" dangerouslySetInnerHTML={{__html: verse.text}} ></div>
                                         </label>
-                                    </label>
+                                    <p>{`${versions[versionSelected].filter((current, index) => index + 1 === verse.book)[0].name}`} {verse.chapter}:{verse.verse}</p>
                                 </div>
-                                : searchResult !== undefined ?
-                                    <div className="overflow-x-auto pt-5 flex flex-col gap-5">
-                                        {searchResult.map((verse: Verse) => (
-                                            <div className="text-xl font-medium">
-                                                {versions[versionSelected].map((book: Book) => {
-
-                                                    // if (book.bookid === verse.book) {
-                                                    return (
-                                                        <span key={book.name} className="text-primary" >{book.name} {verse.chapter}:{verse.verse}</span>
-                                                    )
-                                                    // }
-                                                })}
-                                                <p>{verse.text}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    :
-                                    null
+                            ))}
+                        </div>
+                        :
+                        null
                     }
                 </label>
             </label>
