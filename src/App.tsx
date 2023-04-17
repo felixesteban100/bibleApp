@@ -11,6 +11,10 @@ import versions_withBooks from './data/translations_books.json'
 
 // MAYBE I SHOULD USE REACT ROUTER
 
+//to compare with 
+  // https://bolls.life/NASB/30/7/-1
+
+
 type Book = {
   bookid: number,
   chronorder: number,
@@ -19,12 +23,7 @@ type Book = {
 }
 
 type Versions = {
-  [key: string]: {
-    bookid: number;
-    name: string;
-    chronorder: number;
-    chapters: number;
-  }[];
+  [key: string]: Book[];
 };
 
 function App() {
@@ -39,8 +38,6 @@ function App() {
     chapters: 50
   })
   const [version, setVersion] = useLocalStorage("BIBLEAPP_VERSION", 'NASB')
-
-
 
   const toggleDarkMode: MouseEventHandler<HTMLInputElement> = () => {
     setIsDarkMode((prevMode: boolean) => !prevMode)
@@ -126,9 +123,7 @@ function App() {
     setChapter(chapterSelected)
   }
 
-  //to compare with 
-  // https://bolls.life/NASB/30/7/-1
-
+  
   return (
     <div data-theme={isDarkMode === true ? "forest" : "garden"} className="min-h-screen">
       <Header
@@ -154,6 +149,7 @@ function App() {
 
       <ModalSearch
         versionSelected={version}
+        changeBookandChapter={changeBookandChapter}
       />
 
       <ModalSettings />

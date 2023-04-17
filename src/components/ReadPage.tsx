@@ -51,7 +51,7 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
                 />
 
                 <label
-                    className="btn-ghost rounded-md px-8 py-2 cursor-pointer"
+                    className="btn-ghost rounded-md px-8 py-2 cursor-pointer text-primary hover:text-current"
                     htmlFor="my-modal-books-chapters"
                 >
                     {book_nameSelected} {chapterSelected}

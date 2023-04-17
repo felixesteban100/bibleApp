@@ -3,12 +3,13 @@
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, version } from "react";
 import versions_withBooks from './../data/translations_books.json'
 
 
 type ModalSearchProps = {
     versionSelected: string;
+    changeBookandChapter: (bookInfo: Book, chapterSelected: number) => void
 }
 
 type Verse = {
@@ -21,49 +22,57 @@ type Verse = {
 }
 
 type Versions = {
-    [key: string]: {
-        bookid: number;
-        name: string;
-        chronorder: number;
-        chapters: number;
-    }[];
+    [key: string]: Book[];
 };
 
 type Book = {
-    bookid: number,
-    chronorder: number,
-    name: string,
-    chapters: number
+    bookid: number;
+    name: string;
+    chronorder: number;
+    chapters: number;
 }
 
-function ModalSearch({ versionSelected }: ModalSearchProps) {
+function ModalSearch({ versionSelected, changeBookandChapter }: ModalSearchProps) {
     const versions: Versions = { ...versions_withBooks };
 
-    // const [wordForSearch, setWordForSearch] = useState<string | undefined>(undefined)
+    const [isModalSearchActive, setIsModalSearchActive] = useState<boolean>(false)
     const [wordForSearch, setWordForSearch] = useState<string | undefined>(undefined)
 
-    const [isModalSearchActive, setIsModalSearchActive] = useState<boolean>(false)
+    const [matchCase, setMatchCase] = useState(false)
+    const [matchWhole, setMatchWhole] = useState(false)
+
+    const [matchBooksAndChapters, setMatchBooksAndChapters] = useState<{ books: Book[], chapter: number } | { books: [], chapter: number }>({ books: [], chapter: 0 })
 
     const { isLoading, error, data: searchResult, refetch: refetchSearch } = useQuery<Verse[]>({
         enabled: isModalSearchActive,
         queryKey: ['Search'],
         queryFn: () => {
+            console.log(wordForSearch)
             if (wordForSearch !== undefined) {
                 return axios
                     // .get(`https://bolls.life/search/${versionSelected}/?search=${wordForSearch}&match_case=${false}&match_whole=${true}`)
-                    .get(`https://bolls.life/search/${versionSelected}/?search=${wordForSearch}`)
+                    .get(`https://bolls.life/search/${versionSelected}/?search=${wordForSearch}&match_case=${matchCase}&match_whole=${matchWhole}`)
                     .then((response) => response.data)
             }
             return []
         }
     })
 
-    console.log(isModalSearchActive)
-    console.log(wordForSearch)
-    console.log(searchResult)
-
     function changeWordForSearch(event: React.ChangeEvent<HTMLInputElement>) {
         setWordForSearch(event.target.value)
+        console.log()
+        console.log()
+        // const booksMatched = versions[versionSelected].filter(current => current.name.toLowerCase().includes(event.target.value.toLowerCase().match(/\w+/g)))
+
+        const regexMatches = event.target.value.toLowerCase().match(/\w+/g);
+        const booksMatched = versions[versionSelected].filter(current =>
+            current.name.toLowerCase().includes(regexMatches?.[0] ?? '')
+        );
+
+        setMatchBooksAndChapters({
+            books: booksMatched,
+            chapter: parseInt(event.target.value.match(/ \d+/g)?.[0] || "1")
+        })
     }
 
     function searchWord() {
@@ -75,22 +84,47 @@ function ModalSearch({ versionSelected }: ModalSearchProps) {
     return (
         <div>
             <input type="checkbox" id="my-modal-search" className="modal-toggle" />
-
             <label htmlFor="my-modal-search" className="modal cursor-pointer">
                 <label className="modal-box relative" htmlFor="">
                     <label htmlFor="my-modal-search" className="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
                     <div className="form-control mt-8">
-                        <div className="input-group">
-                            <input
-                                onChange={(event) => changeWordForSearch(event)}
-                                type="text"
-                                placeholder={`Search in bible, ${versionSelected}`}
-                                className="input input-bordered w-full"
-                            />
-                            <button onClick={() => searchWord()} className="btn btn-square">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                            </button>
+                        <div className="collapse-title text-xl font-medium p-0 ">
+                            <div className="input-group ">
+                                <input
+                                    onChange={(event) => changeWordForSearch(event)}
+                                    type="text"
+                                    placeholder={`Search in bible, ${versionSelected}`}
+                                    className="input input-bordered w-full"
+                                />
+                                <button onClick={() => searchWord()} className="btn btn-square">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                                </button>
+                            </div>
+                            {
+                                (matchBooksAndChapters.books.length !== 0 && (wordForSearch !== "" && wordForSearch !== undefined)) ?
+                                    <div tabIndex={0} className="collapse-open collapse border border-base-300 bg-base-100">
+                                        <div className="collapse-content flex flex-col gap-2">
+                                            {matchBooksAndChapters.books.map((currentBook, index) => 
+                                                matchBooksAndChapters.chapter <= currentBook.chapters ?
+                                                <label 
+                                                    key={`${currentBook.name} ${index}`} 
+                                                    htmlFor="my-modal-search" 
+                                                    onClick={() => changeBookandChapter(currentBook, matchBooksAndChapters.chapter)}
+                                                    className='cursor-pointer'
+                                                >
+                                                    {currentBook.name} {matchBooksAndChapters.chapter}
+                                                </label>
+                                                :
+                                                null
+                                                
+                                            )}
+                                        </div>
+                                    </div>
+                                    :
+                                    null
+                            }
                         </div>
+
                     </div>
 
                     {
@@ -135,8 +169,6 @@ function ModalSearch({ versionSelected }: ModalSearchProps) {
                                     :
                                     null
                     }
-
-
                 </label>
             </label>
         </div>
