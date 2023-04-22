@@ -10,6 +10,7 @@ type ReadPageProps = {
     chapterSelected: number;
     versionSelected: string;
     changeChapter: (moveTo: string) => void;
+    textSize: number;
 }
 
 type Chapter = Verse[]
@@ -20,7 +21,7 @@ type Verse = {
     text: string;
 }
 
-function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, versionSelected, changeChapter }: ReadPageProps) {
+function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, versionSelected, changeChapter, textSize }: ReadPageProps) {
     const { isLoading, error, data: chapter, refetch } = useQuery<Chapter>({
         queryKey: ['Chapter'],
         queryFn: () => {
@@ -39,7 +40,13 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
         <Loading />
     )
 
-    if (error) return <div>{`An error has occurred: ${error}`}</div>
+    if (error) return(
+        <div
+            className="flex justify-center bg-primary w-[70%] m-auto mt-20 p-20 rounded-lg text-3xl"
+        >
+            {`An error has occurred: ${error}`}
+        </div>
+    )
 
     return (
         // <div className="mx-20 flex flex-col">
@@ -69,7 +76,8 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
                 />
             </div>
 
-            <div className="text-2xl leading-10">
+            {/* <div className="text-2xl leading-10"> */}
+            <div className={`text-${textSize}xl leading-10`}>
                 {chapter!.map((currentVerse) => (
                     // <span className="flex gap-2 text-2xl">
                     // <span key={currentVerse.verse}>
@@ -100,7 +108,6 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
                 />
             </div>
         </div>
-
     )
 }
 
