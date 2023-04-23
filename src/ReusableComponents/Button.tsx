@@ -11,7 +11,10 @@ function Button({text, changeChapter, move, bookIdSelected, hideInSmallScreen}: 
     return (
         <div
             className={`${hideInSmallScreen && "hidden sm:block"} btn rounded-full h-16 pb-2 text-5xl border-none text-current bg-base-100 hover:bg-primary`}
-            onClick={() => changeChapter(move, bookIdSelected)}
+            onClick={() => {
+                window.scrollTo({ top: 0, behavior: "smooth"});
+                changeChapter(move, bookIdSelected)
+            }}
         >
             {text}
         </div>

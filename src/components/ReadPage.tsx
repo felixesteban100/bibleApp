@@ -22,7 +22,8 @@ type Verse = {
 }
 
 function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, versionSelected, changeChapter, textSize }: ReadPageProps) {
-    const { isLoading, error, data: chapter, refetch } = useQuery<Chapter>({
+
+    const { isLoading, error, data: chapter, refetch, isRefetching } = useQuery<Chapter>({
         queryKey: ['Chapter'],
         queryFn: () => {
             return axios
@@ -36,11 +37,11 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
     }, [book_idSelected, book_nameSelected, chapterSelected, versionSelected]);
 
 
-    if (isLoading) return(
+    if (isLoading || isRefetching) return (
         <Loading />
     )
 
-    if (error) return(
+    if (error) return (
         <div
             className="flex justify-center bg-primary w-[70%] m-auto mt-20 p-20 rounded-lg text-3xl"
         >
@@ -60,12 +61,14 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
                     hideInSmallScreen={true}
                 />
 
-                <label
-                    className="btn-ghost rounded-md px-8 py-2 cursor-pointer text-primary hover:text-current"
-                    htmlFor="my-modal-books-chapters"
-                >
-                    {book_nameSelected} {chapterSelected}
-                </label>
+                <div className="flex">
+                    <label
+                        className="btn-ghost rounded-md px-8 py-2 cursor-pointer text-primary hover:text-current text-2xl sm:text-4xl"
+                        htmlFor="my-modal-books-chapters"
+                    >
+                        {book_nameSelected} {chapterSelected} {versionSelected}
+                    </label>
+                </div>
 
                 <Button
                     text={">"}
@@ -77,7 +80,10 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
             </div>
 
             {/* <div className="text-2xl leading-10"> */}
-            <div className={`text-${textSize}xl leading-10`}>
+            <div
+                data-replace='{ "translate-y-12": "translate-y-0" }'
+                className={`text-${textSize}xl leading-10 transform transition-all translate-y-12 ease-out`}
+            >
                 {chapter!.map((currentVerse) => (
                     // <span className="flex gap-2 text-2xl">
                     // <span key={currentVerse.verse}>
@@ -89,8 +95,8 @@ function ReadPage({ book_idSelected, book_nameSelected, chapterSelected, version
                     </span>
                 ))}
             </div>
-
-            <div className="flex justify-between text-4xl font-bold py-8">
+            <br />
+            <div className="flex justify-between text-4xl font-bold pt-8 pb-0">
                 <Button
                     text={"<"}
                     changeChapter={changeChapter}

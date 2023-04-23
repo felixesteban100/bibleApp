@@ -8,7 +8,8 @@ type ModalSettingsProps = {
     history: Chapter[];
     changeBookandChapter: (bookInfo: Book, chapterSelected: number) => void
     theme: string;
-    setTheme: React.Dispatch<React.SetStateAction<string>>
+    setTheme: React.Dispatch<React.SetStateAction<string>>;
+    setHistory: React.Dispatch<React.SetStateAction<[] | Chapter[]>>;
 }
 
 type Book = {
@@ -24,8 +25,8 @@ type Chapter = {
     version: string;
 }
 
-function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily, history, changeBookandChapter, theme, setTheme }: ModalSettingsProps) {
-    const [rangeValue, setRangeValue] = useLocalStorage("BIBLEAPP_RANGEVALUE", "25")
+function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily, history, changeBookandChapter, theme, setTheme, setHistory }: ModalSettingsProps) {
+    // const [rangeValue, setRangeValue] = useLocalStorage("BIBLEAPP_RANGEVALUE", "25")
 
     const reversedHistory = history.slice().reverse();
 
@@ -59,16 +60,16 @@ function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily,
 
                         <div className="grid grid-flow-col gap-5 w-full">
                             <button
-                                className="btn btn-primary"
+                                className="btn btn-primary text-lg"
                                 onClick={() => changeTextSize(textSize - 1)}
                             >
-                                B-
+                                A-
                             </button>
                             <button
-                                className="btn btn-primary"
+                                className="btn btn-primary text-4xl"
                                 onClick={() => changeTextSize(textSize + 1)}
                             >
-                                B+
+                                A+
                             </button>
                         </div>
                     </div>
@@ -157,11 +158,20 @@ function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily,
 
                     <div className="flex flex-col gap-2 p-5 rounded-md">
                         <div tabIndex={0} className="collapse border bg-base-100 rounded-box border-primary">
-                            <div className="collapse-title font-medium flex gap-2">
-                                <svg className="fill-primary w-8 h-10" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.01112 11.5747L6.29288 10.2929C6.68341 9.90236 7.31657 9.90236 7.7071 10.2929C8.09762 10.6834 8.09762 11.3166 7.7071 11.7071L4.7071 14.7071C4.51956 14.8946 4.26521 15 3.99999 15C3.73477 15 3.48042 14.8946 3.29288 14.7071L0.292884 11.7071C-0.0976406 11.3166 -0.0976406 10.6834 0.292884 10.2929C0.683408 9.90236 1.31657 9.90236 1.7071 10.2929L3.0081 11.5939C3.22117 6.25933 7.61317 2 13 2C18.5229 2 23 6.47715 23 12C23 17.5228 18.5229 22 13 22C9.85817 22 7.05429 20.5499 5.22263 18.2864C4.87522 17.8571 4.94163 17.2274 5.37096 16.88C5.80028 16.5326 6.42996 16.599 6.77737 17.0283C8.24562 18.8427 10.4873 20 13 20C17.4183 20 21 16.4183 21 12C21 7.58172 17.4183 4 13 4C8.72441 4 5.23221 7.35412 5.01112 11.5747ZM13 5C13.5523 5 14 5.44772 14 6V11.5858L16.7071 14.2929C17.0976 14.6834 17.0976 15.3166 16.7071 15.7071C16.3166 16.0976 15.6834 16.0976 15.2929 15.7071L12.2929 12.7071C12.1054 12.5196 12 12.2652 12 12V6C12 5.44772 12.4477 5 13 5Z" /></svg>
+                            <div className="collapse-title font-medium flex gap-2 pr-5">
+                                <svg className="fill-primary w-8 h-10" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" clipRule="evenodd" d="M5.01112 11.5747L6.29288 10.2929C6.68341 9.90236 7.31657 9.90236 7.7071 10.2929C8.09762 10.6834 8.09762 11.3166 7.7071 11.7071L4.7071 14.7071C4.51956 14.8946 4.26521 15 3.99999 15C3.73477 15 3.48042 14.8946 3.29288 14.7071L0.292884 11.7071C-0.0976406 11.3166 -0.0976406 10.6834 0.292884 10.2929C0.683408 9.90236 1.31657 9.90236 1.7071 10.2929L3.0081 11.5939C3.22117 6.25933 7.61317 2 13 2C18.5229 2 23 6.47715 23 12C23 17.5228 18.5229 22 13 22C9.85817 22 7.05429 20.5499 5.22263 18.2864C4.87522 17.8571 4.94163 17.2274 5.37096 16.88C5.80028 16.5326 6.42996 16.599 6.77737 17.0283C8.24562 18.8427 10.4873 20 13 20C17.4183 20 21 16.4183 21 12C21 7.58172 17.4183 4 13 4C8.72441 4 5.23221 7.35412 5.01112 11.5747ZM13 5C13.5523 5 14 5.44772 14 6V11.5858L16.7071 14.2929C17.0976 14.6834 17.0976 15.3166 16.7071 15.7071C16.3166 16.0976 15.6834 16.0976 15.2929 15.7071L12.2929 12.7071C12.1054 12.5196 12 12.2652 12 12V6C12 5.44772 12.4477 5 13 5Z" /></svg>
                                 <p className="text-primary text-2xl font-bold">History</p>
+                                <div className="w-full flex justify-end">
+                                    <button
+                                        onClick={() => setHistory([])}
+                                    >
+                                        <svg className="fill-primary w-8 h-10 hover:text-red-500" /* className="fill-current hover:text-red-500" width="40" height="40" */ viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path className="fill-current hover:text-red-500" fill="#000000" d="M352 192V95.936a32 32 0 0 1 32-32h256a32 32 0 0 1 32 32V192h256a32 32 0 1 1 0 64H96a32 32 0 0 1 0-64h256zm64 0h192v-64H416v64zM192 960a32 32 0 0 1-32-32V256h704v672a32 32 0 0 1-32 32H192zm224-192a32 32 0 0 0 32-32V416a32 32 0 0 0-64 0v320a32 32 0 0 0 32 32zm192 0a32 32 0 0 0 32-32V416a32 32 0 0 0-64 0v320a32 32 0 0 0 32 32z" /></svg>
+                                    </button>
+                                </div>
                             </div>
+
                             <div className="collapse-content">
+
                                 <div className="flex flex-col justify-center">
                                     {
                                         reversedHistory.map((currentChapter, index) => (
@@ -195,7 +205,7 @@ function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily,
                                                 <label className="label cursor-pointer">
                                                     <span className="label-text">{currentTheme}</span>
                                                     {theme === currentTheme ?
-                                                        <input type="radio" name="radio-10" className="radio checked:bg-primary" checked />
+                                                        <input type="radio" name="radio-10" className="radio checked:bg-primary" defaultChecked />
                                                         :
                                                         <input onClick={() => setTheme(currentTheme)} type="radio" name="radio-10" className="radio checked:bg-primary" />
                                                     }

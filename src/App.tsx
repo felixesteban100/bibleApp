@@ -1,4 +1,4 @@
-import { MouseEventHandler, useState } from "react";
+// import { MouseEventHandler, useState } from "react";
 import Header from "./components/Header";
 import ReadPage from "./components/ReadPage"
 import useLocalStorage from "./customHooks/useLocalStorage";
@@ -8,6 +8,7 @@ import ModalVersions from "./components/ModalVersions";
 import ModalBooksAndChapters from "./components/ModalBooksandChapters";
 import ModalSearch from "./components/ModalSearch";
 import versions_withBooks from './data/translations_books.json'
+import Footer from "./components/Footer";
 
 // MAYBE I SHOULD USE REACT ROUTER
 
@@ -56,12 +57,16 @@ function App() {
   
 
   /* pure functions */
-  const toggleDarkMode: MouseEventHandler<HTMLInputElement> = () => {
-    // setIsDarkMode((prevMode: boolean) => !prevMode)
-  }
+  // const toggleDarkMode: MouseEventHandler<HTMLInputElement> = () => {
+  //   setIsDarkMode((prevMode: boolean) => !prevMode)
+  // }
   
   function changeVersion(version_short_name: string) {
     setVersion(version_short_name)
+    const translatedBook = versions[version_short_name].filter((currentBook) => currentBook.bookid === book.bookid && currentBook.chapters === book.chapters)[0]
+    if (translatedBook) {
+      setBook(translatedBook)
+    }
   }
 
   function changeChapter(moveTo: string): void {
@@ -246,7 +251,11 @@ function App() {
         changeBookandChapter={changeBookandChapter}
         theme={theme}
         setTheme={setTheme}
+        setHistory={setHistory}
       />
+
+
+      <Footer />
     </div>
   )
 }
