@@ -15,6 +15,8 @@ import Footer from "./components/Footer";
 //to compare with 
   // https://bolls.life/NASB/30/7/-1
 
+  // if you want the API to work you should turn off the adblock extention
+
 
 type Book = {
   bookid: number,
@@ -249,6 +251,7 @@ function App() {
         changeFontFamily={changeFontFamily}
         history={history}
         changeBookandChapter={changeBookandChapter}
+        changeVersion={changeVersion}
         theme={theme}
         setTheme={setTheme}
         setHistory={setHistory}

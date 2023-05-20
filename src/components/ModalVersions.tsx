@@ -22,7 +22,7 @@ function ModalVersions({ changeVersion }: ModalVersionsProps) {
                                 <div className="collapse-content flex flex-col gap-2">
                                     {currentLanguage.translations.map((version) => (
                                         <div key={version.full_name} className='btn' onClick={() => changeVersion(version.short_name)}>
-                                            {version.full_name}
+                                            {version.full_name[0].toUpperCase()}{version.full_name.slice(1)}
                                         </div>
                                     ))}
                                 </div>

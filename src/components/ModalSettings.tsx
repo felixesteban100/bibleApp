@@ -1,4 +1,3 @@
-import useLocalStorage from "../customHooks/useLocalStorage";
 
 type ModalSettingsProps = {
     textSize: number;
@@ -7,6 +6,7 @@ type ModalSettingsProps = {
     changeFontFamily: (fontFamily: string) => void
     history: Chapter[];
     changeBookandChapter: (bookInfo: Book, chapterSelected: number) => void
+    changeVersion: (version_short_name: string) => void
     theme: string;
     setTheme: React.Dispatch<React.SetStateAction<string>>;
     setHistory: React.Dispatch<React.SetStateAction<[] | Chapter[]>>;
@@ -25,7 +25,7 @@ type Chapter = {
     version: string;
 }
 
-function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily, history, changeBookandChapter, theme, setTheme, setHistory }: ModalSettingsProps) {
+function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily, history, changeBookandChapter, changeVersion, theme, setTheme, setHistory }: ModalSettingsProps) {
     // const [rangeValue, setRangeValue] = useLocalStorage("BIBLEAPP_RANGEVALUE", "25")
 
     const reversedHistory = history.slice().reverse();
@@ -178,7 +178,10 @@ function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily,
                                             <label
                                                 key={index}
                                                 htmlFor="my-modal-settings"
-                                                onClick={() => changeBookandChapter(currentChapter.book, currentChapter.chapter)}
+                                                onClick={() => {
+                                                    changeVersion(currentChapter.version)
+                                                    changeBookandChapter(currentChapter.book, currentChapter.chapter)
+                                                }}
                                                 className="hover:text-primary cursor-pointer text-2xl"
                                             >
                                                 {currentChapter.book.name} {currentChapter.chapter}  {currentChapter.version}
@@ -223,7 +226,6 @@ function ModalSettings({ textSize, changeTextSize, fontFamily, changeFontFamily,
                     </div>
                 </label>
             </label>
-
         </div>
     )
 }
