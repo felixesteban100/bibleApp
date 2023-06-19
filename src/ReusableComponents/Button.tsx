@@ -1,11 +1,6 @@
+import { ButtonProps } from "../types";
 
-type ButtonProps = {
-    text: string;
-    changeChapter: (moveTo: string, bookIdSelected: number) => void;
-    move: string;
-    bookIdSelected: number;
-    hideInSmallScreen: boolean;
-}
+
 
 function Button({text, changeChapter, move, bookIdSelected, hideInSmallScreen}: ButtonProps) {
     return (

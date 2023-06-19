@@ -3,7 +3,7 @@ import Button from "./Button"
 function Loading() {
     return (
         <div className="max-w-[55rem] mx-auto flex flex-col p-10">
-            <div className="animate-pulse flex justify-between text-4xl font-bold py-8">
+            <div className="flex justify-between text-4xl font-bold pt-3 bg-base-100 sticky top-0 z-10">
                 <Button
                     text={"<"}
                     changeChapter={() => {}}

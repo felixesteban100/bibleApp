@@ -1,25 +1,7 @@
+import { ModalBooksAndChapters, Versions } from '../types';
 import versions_withBooks from './../data/translations_books.json'
 
-type ModalBooksAndChapters = {
-    currentVersion: string;
-    changeBookandChapter: (bookInfo: Book, chapterSelected: number) => void
-}
 
-type Book = {
-    bookid: number,
-    chronorder: number,
-    name: string,
-    chapters: number
-}
-
-type Versions = {
-    [key: string]: {
-        bookid: number;
-        name: string;
-        chronorder: number;
-        chapters: number;
-    }[];
-};
 
 function ModalBooksAndChapters({ currentVersion, changeBookandChapter }: ModalBooksAndChapters) {
     const versions: Versions = {
