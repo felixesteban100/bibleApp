@@ -4,7 +4,7 @@ import Button from "../reusableComponents/Button";
 import { useEffect } from "react";
 import Loading from "../reusableComponents/Loading";
 import { HighlightedVerse, ReadPageProps, VersionsDownloaded } from "../types";
-import { versionsDownloaded } from "../data/database";
+// import { versionsDownloaded } from "../data/database";
 import { ERROR_AXIOS_TEMPLATE } from "../constants/ErrorAxios";
 
 
@@ -48,7 +48,7 @@ function ReadPage({
         queryKey: ['Chapter'],
         queryFn: () => {
             let chapter: Chapter = []
-            for (const versionDownloaded of versionsDownloaded) {
+            /* for (const versionDownloaded of versionsDownloaded) {
                 // console.log(versionDownloaded)
                 for (const book of versionDownloaded.booksInTheVersion) {
                     if (book.book.bookid === book_idSelected) {
@@ -61,11 +61,11 @@ function ReadPage({
                 ? axios
                     .get<Chapter>(`https://bolls.life/get-chapter/${versionSelected}/${book_idSelected}/${chapterSelected}/`)
                     .then((response) => response.data)
-                : chapter
+                : chapter */
 
-            /* return axios
+            return axios
                 .get<Chapter>(`https://bolls.life/get-chapter/${versionSelected}/${book_idSelected}/${chapterSelected}/`)
-                .then((response) => response.data) */
+                .then((response) => response.data)
         }
     })
 

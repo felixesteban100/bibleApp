@@ -1,5 +1,5 @@
 import { ModalSettingsProps } from "../types";
-import { dbForVersionsDownloaded, versionsDownloaded } from "../data/database";
+import { dbForVersionsDownloaded/* , versionsDownloaded */ } from "../data/database";
 
 function ModalSettings({
     textSize,

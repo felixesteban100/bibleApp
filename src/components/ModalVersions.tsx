@@ -1,4 +1,4 @@
-import { versionsDownloaded } from '../data/database';
+// import { versionsDownloaded } from '../data/database';
 import { ModalVersionsProps, Version, VersionsDownloaded } from '../types'
 import languages from './../data/languages.json'
 
