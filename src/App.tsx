@@ -104,17 +104,17 @@ function App() {
 
 
     // ALREADY DOWNLOADED AND UPLOADED TO THE MONGODB AND PUSH TO IDB
-    await dbForVersionsDownloaded.add('versionsDownloaded', versiontoDownload);
+    // await dbForVersionsDownloaded.add('versionsDownloaded', versiontoDownload);
 
-    const transactionVersions = dbForVersionsDownloaded.transaction('versionsDownloaded', 'readwrite');
-    const objectStoreVersions = transactionVersions.objectStore('versionsDownloaded');
-    await objectStoreVersions.add(versiontoDownload)
-    const allVersionsDownloadedDB = await objectStoreVersions.getAll()
+    // const transactionVersions = dbForVersionsDownloaded.transaction('versionsDownloaded', 'readwrite');
+    // const objectStoreVersions = transactionVersions.objectStore('versionsDownloaded');
+    // await objectStoreVersions.add(versiontoDownload)
+    // const allVersionsDownloadedDB = await objectStoreVersions.getAll()
 
-    await dbForVersionsDownloaded.put('booksStore', versiontoDownload); // Store the book data in IndexedDB
+    // await dbForVersionsDownloaded.put('booksStore', versiontoDownload); // Store the book data in IndexedDB
 
     // Get all the versions from IDB:
-    console.log(await dbForVersionsDownloaded.getAll('versionsDownloaded'))
+    // console.log(await dbForVersionsDownloaded.getAll('versionsDownloaded'))
     // ALREADY DOWNLOADED AND UPLOADED TO THE MONGODB AND PUSH TO IDB
 
 
