@@ -282,7 +282,7 @@ function ModalSettings({
                             <div className="collapse-content">
 
                                 <div className="flex flex-col justify-center">
-                                    {
+                                    {/* {
                                         versionsDownloaded.map((currentVersion, index) => (
                                             <label
                                                 key={index}
@@ -295,7 +295,7 @@ function ModalSettings({
                                                 {currentVersion.versionFullName}
                                             </label>
                                         ))
-                                    }
+                                    } */}
                                 </div>
                             </div>
                         </div>

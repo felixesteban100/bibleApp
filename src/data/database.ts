@@ -29,4 +29,4 @@ async function getVersionsDownloaded(): Promise<VersionsDownloaded[]> {
     return versionsDownloaded;
 }
 
-export const versionsDownloaded = await getVersionsDownloaded();
+export const versionsDownloaded = /* await */ getVersionsDownloaded();
