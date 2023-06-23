@@ -32,21 +32,25 @@ function ModalVersions({ changeVersion, downloadVersion, /* versionsDownloaded, 
                                         {currentLanguage.translations.map((version) => (
                                             <div
                                                 key={version.full_name}
-                                                className='flex flex-wrap justify-center gap-2'
+                                                // className='flex flex-wrap justify-center gap-2'
+                                                className='flex flex-wrap gap-2'
                                             >
                                                 {/* add to this a tooltip of the full name of the version */}
                                                 <div
-                                                    className='tooltip'
+                                                    className='tooltip w-full'
                                                     data-tip={version.full_name}
                                                 >
                                                     <div
-                                                        className='btn'
+                                                        className='btn w-full'
                                                         
                                                         onClick={() => changeVersion(version.short_name)}
                                                     >
-                                                        {/* {version.full_name[0].toUpperCase()}
+                                                        {version.full_name[0].toUpperCase()}{version.full_name.slice(1)}
+
+                                                    {/* {version.full_name[0].toUpperCase()}
                                                     {version.full_name.length < 30 ? version.full_name.slice(1) : `${version.full_name.slice(1, 30)}...`} */}
-                                                        {version.short_name}
+                                                        
+                                                        {/* {version.short_name} */}
                                                     </div>
                                                 </div>
                                                 {/* add to this a tooltip of download version */}
@@ -91,3 +95,5 @@ function ModalVersions({ changeVersion, downloadVersion, /* versionsDownloaded, 
 }
 
 export default ModalVersions
+
+ 

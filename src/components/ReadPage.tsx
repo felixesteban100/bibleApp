@@ -7,10 +7,9 @@ import { HighlightedVerse, ReadPageProps, VersionsDownloaded } from "../types";
 // import { versionsDownloaded } from "../data/database";
 import { ERROR_AXIOS_TEMPLATE } from "../constants/ErrorAxios";
 
+// const versionsDownloaded = ['NASB']
 
 /* LOOK  FOR A WAY TO SEND THESE TYPES INTO THE TYPE/INDEX.TS FOLDER */
-
-
 type Chapter = {
     pk: number;
     verse: number;
@@ -47,8 +46,8 @@ function ReadPage({
         refetchOnWindowFocus: false,
         queryKey: ['Chapter'],
         queryFn: () => {
-            let chapter: Chapter = []
-            /* for (const versionDownloaded of versionsDownloaded) {
+            /* let chapter: Chapter = []
+            for (const versionDownloaded of versionsDownloaded) {
                 // console.log(versionDownloaded)
                 for (const book of versionDownloaded.booksInTheVersion) {
                     if (book.book.bookid === book_idSelected) {
@@ -56,7 +55,6 @@ function ReadPage({
                     }
                 }
             }
-
             return (hasVersion(versionsDownloaded, versionSelected) === false && chapter.length < 1)
                 ? axios
                     .get<Chapter>(`https://bolls.life/get-chapter/${versionSelected}/${book_idSelected}/${chapterSelected}/`)
