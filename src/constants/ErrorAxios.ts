@@ -25,3 +25,5 @@ export const ERROR_AXIOS_TEMPLATE = {
     },
     "code": "ECONNABORTED", "status": null
 }
+
+export const TOP_OFFSET = 20;

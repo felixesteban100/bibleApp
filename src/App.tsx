@@ -9,11 +9,11 @@ import ModalBooksAndChapters from "./components/ModalBooksandChapters";
 import ModalSearch from "./components/ModalSearch";
 import versions_withBooks from './data/translations_books.json'
 import Footer from "./components/Footer";
-import { Book, Chapter, HighlightedVerse, Version, VersionDownloading, Versions, VersionsDownloaded, chaptersContent } from "./types";
-import axios from "axios";
-import { useState } from "react";
-import { dbForVersionsDownloaded } from "./data/database";
-import { saveAs } from 'file-saver';
+import { Book, Chapter, HighlightedVerse, /* Version, VersionDownloading, */ Versions, /* VersionsDownloaded, chaptersContent */ } from "./types";
+// import axios from "axios";
+// import { useState } from "react";
+// import { dbForVersionsDownloaded } from "./data/database";
+// import { saveAs } from 'file-saver';
 
 // MAYBE I SHOULD USE REACT ROUTER
 
@@ -43,10 +43,7 @@ function App() {
   const [theme, setTheme] = useLocalStorage("BIBLEAPP_THEME", "light")
   const [highlithedVerses, setHighlithedVerses] = useLocalStorage<HighlightedVerse[]>("BIBLEAPP_HIGHLIGHTEDVERSES", [])
 
-  const [versionDownloading, setVersionDownloading] = useState<VersionDownloading>({
-    processRunning: false,
-    versionFullName: ""
-  })
+  /* const [versionDownloading, setVersionDownloading] = useState<VersionDownloading>({ processRunning: false, versionFullName: "" })
 
   async function downloadVersion(versionSelected: Version) {
 
@@ -59,26 +56,25 @@ function App() {
       versions[versionSelected.short_name].map((async (currentBook) => {
 
         // DOWNLOAD VERSION (TAKES A LOT TIME)
-        /*console.log("------------ it has begun ------------")
-         const chaptersContent: chaptersContent[] = [];
-         for (let chapterIndex = 1; chapterIndex <= currentBook.chapters; chapterIndex++) {
-          const currentChapterContent = await axios
-            .get(`https://bolls.life/get-chapter/${versionSelected.short_name}/${currentBook.bookid}/${chapterIndex}/`)
-            .then((response) => response.data);
+        // console.log("------------ it has begun ------------")
+        //  const chaptersContent: chaptersContent[] = [];
+        //  for (let chapterIndex = 1; chapterIndex <= currentBook.chapters; chapterIndex++) {
+        //   const currentChapterContent = await axios
+        //     .get(`https://bolls.life/get-chapter/${versionSelected.short_name}/${currentBook.bookid}/${chapterIndex}/`)
+        //     .then((response) => response.data);
 
-          // console.log(`chapter:${chapterIndex}`)
-          // console.log(currentChapterContent)
+        //   // console.log(`chapter:${chapterIndex}`)
+        //   // console.log(currentChapterContent)
 
-          chaptersContent.push({
-            chapterNumber: chapterIndex,
-            verses: currentChapterContent
-          });
-        } 
-        return {
-          book: currentBook,
-          chaptersContent: chaptersContent
-        }
-        */
+        //   chaptersContent.push({
+        //     chapterNumber: chapterIndex,
+        //     verses: currentChapterContent
+        //   });
+        // } 
+        // return {
+        //   book: currentBook,
+        //   chaptersContent: chaptersContent
+        // }
         // DOWNLOAD VERSION (TAKES A LOT TIME)
 
         // ALREADY DOWNLOADED AND UPLOADED TO THE MONGODB AND PUSH TO IDB
@@ -128,14 +124,13 @@ function App() {
       processRunning: false,
       versionFullName: "None"
     })
-  }
+  } */
 
-  function saveDataAsJSON(data: object, fileName: string) {
+  /* function saveDataAsJSON(data: object, fileName: string) {
     const jsonData = JSON.stringify(data);
     const blob = new Blob([jsonData], { type: 'application/json' });
     saveAs(blob, fileName);
-  };
-
+  }; */
 
   function changeVersion(version_short_name: string) {
     setVersion(version_short_name)
@@ -224,8 +219,6 @@ function App() {
         break;
     }
 
-    console.log()
-
     setHistory(chapterArr => {
       const chapterNew = {
         book: book,
@@ -290,8 +283,7 @@ function App() {
       data-theme={theme}
       className={`min-h-screen ${fontFamily} transition-colors duration-500`}
     >
-      <Header
-      />
+      <Header />
 
       <ReadPage
         bookSelected={book}
@@ -302,18 +294,20 @@ function App() {
 
         highlithedVerses={highlithedVerses}
         setHighlithedVerses={setHighlithedVerses}
-
       />
 
       <ModalVersions
         changeVersion={changeVersion}
-        downloadVersion={downloadVersion}
-        versionDownloading={versionDownloading}
+        // downloadVersion={downloadVersion}
+        // versionDownloading={versionDownloading}
+        versionSelected={version}
       />
 
       <ModalBooksAndChapters
         currentVersion={version}
         changeBookandChapter={changeBookandChapter}
+        chapterSelected={chapter}
+        bookSelected={book}
       />
 
       <ModalSearch

@@ -1,16 +1,17 @@
 // import { versionsDownloaded } from '../data/database';
-import { ModalVersionsProps, Version, VersionsDownloaded } from '../types'
+import { ModalVersionsProps, /* Version, VersionsDownloaded */ } from '../types'
 import languages from './../data/languages.json'
 
 
 
-function ModalVersions({ changeVersion, downloadVersion, /* versionsDownloaded,  */versionDownloading }: ModalVersionsProps) {
-    function hasVersion(arr: VersionsDownloaded[], version: Version): boolean {
+function ModalVersions({ changeVersion, /* downloadVersion, */ /* versionsDownloaded,  *//* versionDownloading, */ versionSelected}: ModalVersionsProps) {
+    /* function hasVersion(arr: VersionsDownloaded[], version: Version): boolean {
         return arr.some(currentVersionDownload =>
             currentVersionDownload.versionFullName === version.full_name
             && currentVersionDownload.versionShortName === version.short_name);
     }
 
+    const availableVersions = ["RV1960", "NASB", "NIV", "NKJV", "TR", "WEB"] */
 
     return (
         <div>
@@ -41,15 +42,16 @@ function ModalVersions({ changeVersion, downloadVersion, /* versionsDownloaded, 
                                                     data-tip={version.full_name}
                                                 >
                                                     <div
-                                                        className='btn w-full'
-                                                        
+                                                        // className={`btn w-full ${availableVersions.includes(version.short_name) ? "btn-primary" : ""}`}
+                                                        className={`btn w-full ${version.short_name === versionSelected ? "btn-primary" : ""}`}
+
                                                         onClick={() => changeVersion(version.short_name)}
                                                     >
                                                         {version.full_name[0].toUpperCase()}{version.full_name.slice(1)}
 
-                                                    {/* {version.full_name[0].toUpperCase()}
+                                                        {/* {version.full_name[0].toUpperCase()}
                                                     {version.full_name.length < 30 ? version.full_name.slice(1) : `${version.full_name.slice(1, 30)}...`} */}
-                                                        
+
                                                         {/* {version.short_name} */}
                                                     </div>
                                                 </div>
@@ -96,4 +98,3 @@ function ModalVersions({ changeVersion, downloadVersion, /* versionsDownloaded, 
 
 export default ModalVersions
 
- 

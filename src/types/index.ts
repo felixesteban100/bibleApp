@@ -21,14 +21,14 @@ export type Verse = {
 export type Version = {
     short_name: string;
     full_name: string;
-    info: string;
+    info?: string | undefined;
     updated: number;
-} | {
+} /* | {
     short_name: string;
     full_name: string;
     updated: number;
     info?: undefined;
-}
+} */
 
 export type Versions = {
     [key: string]: Book[];
@@ -50,6 +50,8 @@ export type HeaderProps = {
 export type ModalBooksAndChapters = {
     currentVersion: string;
     changeBookandChapter: (bookInfo: Book, chapterSelected: number) => void
+    bookSelected: Book
+    chapterSelected: number
 }
 
 export type ButtonProps = {
@@ -58,12 +60,14 @@ export type ButtonProps = {
     move: string;
     bookIdSelected: number;
     hideInSmallScreen: boolean;
+    changeFontSize? : boolean;
 }
 
 export type ModalVersionsProps = {
     changeVersion: (versionABR: string) => void
-    downloadVersion: (version: Version) => void
-    versionDownloading: VersionDownloading
+    // downloadVersion: (version: Version) => void
+    // versionDownloading: VersionDownloading
+    versionSelected: string;
 }
 
 export type HighlightedVerse = {
@@ -107,12 +111,12 @@ export type ReadPageProps = {
 export type VersionsDownloaded = {
     versionFullName: string;
     versionShortName: string;
-    booksInTheVersion: BookInVersion[]
+    booksInTheVersion: BookInVersion[];
 }
 
 export type BookInVersion = {
-    book: Book,
-    chaptersContent: chaptersContent[]
+    book: Book;
+    chaptersContent: chaptersContent[];
 }
 
 export type chaptersContent = {
@@ -128,3 +132,11 @@ export type VersionDownloading = {
     processRunning: boolean,
     versionFullName: string
 }
+
+/* type handlerUseQuery = { 
+    isLoading: boolean, 
+    error: AxiosError<Error | undefined>, 
+    data: Chapter | undefined, 
+    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => Promise<QueryObserverResult<Chapter, unknown>>, 
+    isFetching: boolean 
+} */

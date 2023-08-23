@@ -3,7 +3,7 @@ import versions_withBooks from './../data/translations_books.json'
 
 
 
-function ModalBooksAndChapters({ currentVersion, changeBookandChapter }: ModalBooksAndChapters) {
+function ModalBooksAndChapters({ currentVersion, changeBookandChapter, bookSelected, chapterSelected }: ModalBooksAndChapters) {
     const versions: Versions = {
         ...versions_withBooks
     };
@@ -19,13 +19,14 @@ function ModalBooksAndChapters({ currentVersion, changeBookandChapter }: ModalBo
                     <div className="overflow-x-auto">
                         {versions[currentVersion].map((book) => (
                             <div key={book.bookid} tabIndex={0} className="collapse collapse-arrow border border-base-300 bg-base-100 rounded-box">
+                                <input type="checkbox" defaultChecked={book.name === bookSelected.name}/>
                                 <div className="collapse-title text-xl font-medium">
-                                    {book.name}
+                                    <p className={`${book.name === bookSelected.name ? "text-primary" : ""}`}>{book.name}</p>
                                 </div>
                                 <div className="collapse-content grid grid-cols-8 gap-2">
                                     {Array.from({ length: book.chapters }, (_, index) => index + 1).map((number: number, index: number) => (
                                         <div key={index}>
-                                            <label htmlFor="my-modal-books-chapters" onClick={() => changeBookandChapter(book, index + 1)} className='btn'>{index + 1}</label>
+                                            <label htmlFor="my-modal-books-chapters" onClick={() => changeBookandChapter(book, index + 1)} className={`btn ${(book.name === bookSelected.name && chapterSelected === index + 1) ? "btn-primary" : ""}`}>{index + 1}</label>
                                         </div>
                                     ))}
                                 </div>
